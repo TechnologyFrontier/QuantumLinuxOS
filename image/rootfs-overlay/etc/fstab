@@ -1,0 +1,7 @@
+# QuantumOS (QOS-BD 3章)
+# / is the read-only root slot selected by the boot loader (root= ... ro).
+# /var (state partition) and the /etc overlay are mounted by the initramfs
+# hook "quantumos-state"; this entry only informs systemd about them.
+PARTLABEL=qos-state  /var   ext4  defaults,nodev,nosuid                     0 0
+PARTLABEL=ESP        /efi   vfat  umask=0077,noauto,x-systemd.automount     0 0
+tmpfs                /tmp   tmpfs defaults,nodev,nosuid,mode=1777           0 0

@@ -1,0 +1,3 @@
+{"schema_version":1,"n_qubits":2,"operations":[
+  {"op":"x","qubits":[1]},
+  {"op":"measure","qubits":[1,0]}]}

@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quantumos"
+version = "0.1.0"
+description = "QuantumOS user space: local quantum service (qosd), standard CLI (qosctl) and update tooling (qos-admin)"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["numpy>=1.24", "cryptography>=38"]
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
+[project.scripts]
+qosctl = "quantumos.cli:main"
+qosd = "quantumos.service:main"
+qos-admin = "quantumos.admin.cli:main"
+qos-bundle = "quantumos.admin.bundletool:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

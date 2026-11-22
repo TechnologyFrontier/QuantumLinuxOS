@@ -1,0 +1,19 @@
+# QuantumOS quantum service socket (QOS-IF 3章)
+# Local Unix stream socket only; no network listener exists.
+[Unit]
+Description=QuantumOS quantum service socket
+Documentation=file:/usr/share/doc/quantumos/README.md
+
+[Socket]
+ListenStream=/run/quantumos/quantum.sock
+SocketUser=root
+SocketGroup=quantum
+SocketMode=0660
+# parent directory owned by root and not writable by others, so ordinary
+# users cannot replace the socket
+DirectoryMode=0755
+Accept=no
+RemoveOnStop=yes
+
+[Install]
+WantedBy=sockets.target

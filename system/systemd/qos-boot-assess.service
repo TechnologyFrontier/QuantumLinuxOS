@@ -1,0 +1,20 @@
+# Trial-boot assessment (QOS-FD OS-06): confirm the trial slot when the
+# health checks pass, otherwise point the next boot back to the confirmed
+# slot.  Runs once per boot after the quantum service is up.
+[Unit]
+Description=QuantumOS trial boot assessment
+After=qosd.socket qosd.service local-fs.target getty@tty1.service
+Wants=qosd.service
+RequiresMountsFor=/var/lib/quantumos /efi
+ConditionPathExists=/var/lib/quantumos/update
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/qos-admin boot-assess
+RemainAfterExit=yes
+# whole assessment deadline (provisional); on expiry the unit fails and the
+# next boot reports HEALTH_CHECK_INCOMPLETE and returns to the confirmed slot
+TimeoutStartSec=600
+
+[Install]
+WantedBy=multi-user.target

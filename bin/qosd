@@ -1,0 +1,6 @@
+#!/usr/bin/env python3
+# Development launcher: runs quantumos.service from the source tree.
+import os, sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "src"))
+from quantumos.service import main
+sys.exit(main())

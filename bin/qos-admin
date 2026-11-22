@@ -1,0 +1,6 @@
+#!/usr/bin/env python3
+# Development launcher: runs quantumos.admin.cli from the source tree.
+import os, sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "src"))
+from quantumos.admin.cli import main
+sys.exit(main())

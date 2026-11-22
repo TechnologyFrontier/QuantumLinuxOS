@@ -1,0 +1,32 @@
+#!/bin/sh
+# initramfs-tools local-bottom hook (QOS-FD OS-01).
+#
+# After the read-only root slot is mounted at ${rootmnt}:
+#   1. mount the state partition (PARTLABEL=qos-state) at ${rootmnt}/var,
+#   2. overlay ${rootmnt}/etc with an upper layer on the state partition so
+#      that accounts, machine-id and host settings survive updates.
+# If either step fails the normal services must not start: drop to the
+# initramfs maintenance shell (recovery via console or maintenance media).
+PREREQ=""
+prereqs() { echo "$PREREQ"; }
+case "$1" in prereqs) prereqs; exit 0 ;; esac
+
+. /scripts/functions
+
+STATE_DEV=/dev/disk/by-partlabel/qos-state
+
+wait_for_udev 10
+if [ ! -b "$STATE_DEV" ]; then
+    panic "QuantumOS: state partition $STATE_DEV not found"
+fi
+if ! mount -t ext4 -o nodev,nosuid "$STATE_DEV" "${rootmnt}/var"; then
+    panic "QuantumOS: cannot mount state partition"
+fi
+OV="${rootmnt}/var/lib/quantumos/etc-overlay"
+mkdir -p "$OV/upper" "$OV/work" "${rootmnt}/var/home" "${rootmnt}/var/roothome"
+if ! mount -t overlay overlay \
+        -o "lowerdir=${rootmnt}/etc,upperdir=$OV/upper,workdir=$OV/work" \
+        "${rootmnt}/etc"; then
+    panic "QuantumOS: cannot set up /etc overlay"
+fi
+exit 0
