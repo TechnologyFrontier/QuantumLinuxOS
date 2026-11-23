@@ -34,6 +34,24 @@ echo ">> debootstrap $DEBIAN_SUITE"
 debootstrap --variant=minbase ${DEBOOTSTRAP_OPTS:-} --include="$PKGS" \
     "$DEBIAN_SUITE" "$ROOT" "$DEBIAN_MIRROR"
 
+EDITION_DIR="$HERE/editions/$QOS_EDITION"
+if [ -f "$EDITION_DIR/packages.txt" ]; then
+    # Editions add packages with apt, whose resolver (unlike debootstrap's)
+    # handles alternatives and virtual packages.  Recommends are not installed.
+    echo ">> installing $QOS_EDITION edition packages"
+    EXTRA="$(grep -v '^\s*#' "$EDITION_DIR/packages.txt" | grep -v '^\s*$' | paste -sd' ' -)"
+    mount --bind /dev "$ROOT/dev"; mount -t proc proc "$ROOT/proc"; mount -t sysfs sys "$ROOT/sys"
+    trap 'umount -l "$ROOT/dev" "$ROOT/proc" "$ROOT/sys" 2>/dev/null || true' EXIT
+    cp /etc/resolv.conf "$ROOT/etc/resolv.conf"
+    printf '#!/bin/sh\nexit 101\n' > "$ROOT/usr/sbin/policy-rc.d"; chmod 0755 "$ROOT/usr/sbin/policy-rc.d"
+    chroot "$ROOT" apt-get update
+    # shellcheck disable=SC2086
+    chroot "$ROOT" env DEBIAN_FRONTEND=noninteractive \
+        apt-get install -y --no-install-recommends $EXTRA
+    rm -f "$ROOT/usr/sbin/policy-rc.d" "$ROOT/etc/resolv.conf"
+    umount -l "$ROOT/dev" "$ROOT/proc" "$ROOT/sys"; trap - EXIT
+fi
+
 echo ">> installing QuantumOS components"
 PYDIR="$ROOT/usr/lib/python3/dist-packages"
 rm -rf "$PYDIR/quantumos"
@@ -76,6 +94,7 @@ cat >> "$ROOT/usr/lib/os-release" <<OSR
 QUANTUMOS_VERSION="$QOS_VERSION"
 OSR
 echo "quantumos" > "$ROOT/etc/hostname"
+echo "QUANTUMOS_EDITION=\"$QOS_EDITION\"" >> "$ROOT/usr/lib/os-release"
 : > "$ROOT/etc/machine-id"   # generated on first boot, kept in the /etc overlay
 
 # Writable locations live on the state partition (/var)
@@ -88,7 +107,15 @@ echo ">> configuring services"
 mount --bind /dev "$ROOT/dev"; mount -t proc proc "$ROOT/proc"; mount -t sysfs sys "$ROOT/sys"
 trap 'umount -l "$ROOT/dev" "$ROOT/proc" "$ROOT/sys" 2>/dev/null || true' EXIT
 chroot "$ROOT" systemd-sysusers
-chroot "$ROOT" systemctl enable qosd.socket qos-boot-assess.service getty@tty1.service serial-getty@ttyS0.service
+chroot "$ROOT" systemctl enable qosd.socket qos-boot-assess.service serial-getty@ttyS0.service
+if [ "$QOS_EDITION" = standard ]; then
+    # text console; the desktop edition's GDM takes tty1 instead
+    chroot "$ROOT" systemctl enable getty@tty1.service
+fi
+if [ -x "$EDITION_DIR/configure.sh" ]; then
+    # shellcheck source=editions/desktop/configure.sh
+    . "$EDITION_DIR/configure.sh"
+fi
 chroot "$ROOT" systemctl disable apt-daily.timer apt-daily-upgrade.timer 2>/dev/null || true
 # Local administrator: root password hash from the build environment
 # (e.g. QOS_ROOT_PASSWORD_HASH="$(openssl passwd -6)").  Without it root is

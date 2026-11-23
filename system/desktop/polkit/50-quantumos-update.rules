@@ -1,0 +1,9 @@
+// Administrators (group sudo) at the local, active session may read the
+// update state without typing their password.  Applying an update always
+// asks for authentication (org.quantumos.update.apply keeps its default).
+polkit.addRule(function(action, subject) {
+    if (action.id == "org.quantumos.update.status" &&
+        subject.local && subject.active && subject.isInGroup("sudo")) {
+        return polkit.Result.YES;
+    }
+});

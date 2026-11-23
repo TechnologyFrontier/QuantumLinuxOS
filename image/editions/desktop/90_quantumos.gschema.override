@@ -1,0 +1,7 @@
+# QuantumOS desktop edition defaults (QOS-DT DT-01)
+[org.gnome.shell]
+favorite-apps=['firefox-esr.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Ptyxis.desktop', 'org.gnome.Software.desktop', 'org.quantumos.Studio.desktop', 'org.quantumos.UpdateManager.desktop']
+
+[org.gnome.software]
+# OS packages are not managed by GNOME Software (read-only root, A/B updates)
+download-updates=false

@@ -84,6 +84,42 @@ image/make-bundle.sh out-0.2.0 update.key 0.2.0 quantumos-0.2.0.qosb
 
 OS 上での適用方法は [update-and-recovery.md](update-and-recovery.md) を参照してください。
 
+## デスクトップ版を作る（QOS-DT 0.1）
+
+`QOS_EDITION=desktop` を付けると、標準版のパッケージに GNOME と量子OSのデスクトップアプリを加えたデスクトップ版を作ります。
+標準版の手順と出力は変わりません。
+
+```bash
+sudo QOS_EDITION=desktop QOS_UPDATE_PUBKEY=update.pub QOS_ROOT_PASSWORD_HASH="$(openssl passwd -6)" QOS_IDE_PLUGIN_ZIP=quantum-os-ide-plugin-0.1.0.zip image/build-rootfs.sh out-desktop
+```
+
+```bash
+sudo QOS_EDITION=desktop image/make-disk.sh out-desktop quantumos-desktop.raw
+```
+
+| 項目 | 標準版 | デスクトップ版 |
+|---|---|---|
+| 追加パッケージ | — | [image/editions/desktop/packages.txt](../image/editions/desktop/packages.txt)（apt で導入。Recommends なし） |
+| 製品 ID | `quantumos` | `quantumos-desktop`（更新バンドルも `QOS_EDITION=desktop image/make-bundle.sh …` で作る） |
+| ルートスロット／ルートイメージ／ディスク | 6／3／32 GiB | 12／9／64 GiB |
+| 既定ターゲット | multi-user（`getty@tty1`） | graphical（GDM） |
+| 健全性確認 | [system/config/update.conf](../system/config/update.conf) の既定 | [image/editions/desktop/update.conf](../image/editions/desktop/update.conf)（tty1 の代わりに `display-manager.service`） |
+
+デスクトップ版にだけ入るもの（[image/editions/desktop/configure.sh](../image/editions/desktop/configure.sh)）：
+
+- `qos-studio`（量子回路スタジオ）、`qos-update-manager`（更新マネージャー）、`qos-devenv-setup`（開発環境セットアップ）と起動項目・アイコン
+- `/usr/libexec/quantumos/qos-update-helper` と polkit の操作 `org.quantumos.update.status`／`org.quantumos.update.apply`
+- `QOS_IDE_PLUGIN_ZIP` を指定した場合は量子OSプラグインを `/usr/share/quantumos/ide/quantum-os-ide-plugin.zip` に同梱（IntelliJ IDEA 本体は同梱しない）
+- `/etc/adduser.conf` の `EXTRA_GROUPS="users quantum"`（GNOME で作った利用者が量子サービスを使える）
+- ロケール `ja_JP.UTF-8`（既定）と `en_US.UTF-8`、Mozc、Noto CJK フォント
+- PackageKit の無効化（GNOME ソフトウェアは Flatpak のアプリだけを扱う。Flatpak は `/var/lib/flatpak` に入り、A/B 更新・切り戻しの影響を受けない）
+
+Flatpak のリモートは登録していません。Flathub を使う場合は管理者が次を実行します。
+
+```bash
+sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+```
+
 ## 別の配布元で試す場合
 
 パッケージ一覧と debootstrap の引数は上書きできます。たとえば Ubuntu のミラーでスクリプトの動作だけを確かめる場合：

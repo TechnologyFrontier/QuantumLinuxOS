@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE policyconfig PUBLIC "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
+ "http://www.freedesktop.org/standards/PolicyKit/1/policyconfig.dtd">
+<!-- QuantumOS update manager (QOS-DT 3.2).  pkexec tells the two actions
+     apart by the helper's first argument. -->
+<policyconfig>
+  <vendor>QuantumOS</vendor>
+  <action id="org.quantumos.update.status">
+    <description>Show the QuantumOS update state</description>
+    <description xml:lang="ja">量子OSの更新状態を表示</description>
+    <message>Authentication is required to read the update state</message>
+    <message xml:lang="ja">更新状態を読むには認証が必要です</message>
+    <icon_name>org.quantumos.UpdateManager</icon_name>
+    <defaults>
+      <allow_any>auth_admin</allow_any>
+      <allow_inactive>auth_admin</allow_inactive>
+      <allow_active>auth_admin_keep</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/quantumos/qos-update-helper</annotate>
+    <annotate key="org.freedesktop.policykit.exec.argv1">status</annotate>
+  </action>
+  <action id="org.quantumos.update.apply">
+    <description>Apply a QuantumOS update bundle</description>
+    <description xml:lang="ja">量子OSの更新バンドルを適用</description>
+    <message>Authentication is required to update the operating system</message>
+    <message xml:lang="ja">OS を更新するには認証が必要です</message>
+    <icon_name>org.quantumos.UpdateManager</icon_name>
+    <defaults>
+      <allow_any>no</allow_any>
+      <allow_inactive>no</allow_inactive>
+      <allow_active>auth_admin</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/quantumos/qos-update-helper</annotate>
+    <annotate key="org.freedesktop.policykit.exec.argv1">apply</annotate>
+  </action>
+</policyconfig>

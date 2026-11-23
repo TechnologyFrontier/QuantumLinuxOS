@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Development Environment Setup
+Name[ja]=開発環境セットアップ
+Comment=Install IntelliJ IDEA with the QuantumOS IDE plugin into your home
+Comment[ja]=IntelliJ IDEA と量子OSプラグインをホームに導入します
+Exec=/usr/bin/qos-devenv-setup
+Icon=org.quantumos.DevSetup
+Terminal=false
+Categories=Development;
+Keywords=IDE;IntelliJ;plugin;開発;
+StartupNotify=true

@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=QuantumOS Update Manager
+Name[ja]=量子OS 更新マネージャー
+Comment=Show the A/B update state and apply signed update bundles
+Comment[ja]=更新状態の確認と署名付き更新バンドルの適用
+Exec=/usr/bin/qos-update-manager
+Icon=org.quantumos.UpdateManager
+Terminal=false
+Categories=System;Settings;
+Keywords=update;upgrade;rollback;更新;
+StartupNotify=true

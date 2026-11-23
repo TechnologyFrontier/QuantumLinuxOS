@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Quantum Circuit Studio
+Name[ja]=量子回路スタジオ
+Comment=Edit, draw and run quantum circuits on the local quantum service
+Comment[ja]=量子回路を作成・図示し、量子サービスで実行します
+Exec=/usr/bin/qos-studio %f
+Icon=org.quantumos.Studio
+Terminal=false
+Categories=Education;Science;Physics;Development;
+Keywords=quantum;circuit;qubit;量子;回路;
+StartupNotify=true

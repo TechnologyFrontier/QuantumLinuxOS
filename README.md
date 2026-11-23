@@ -15,12 +15,14 @@
 | 量子サービス | `qosd`：Unix ソケット・版付き JSON・状態ベクトル計算（[src/quantumos/service.py](src/quantumos/service.py)） | OS-03〜05 |
 | 標準 CLI | `qosctl validate / run / status`（[src/quantumos/cli.py](src/quantumos/cli.py)） | OS-03〜05 |
 | 保守・診断 | `qos-admin update / update-status / boot-assess`（[src/quantumos/admin/](src/quantumos/admin/)） | OS-06／07 |
+| デスクトップ版 | GNOME、量子回路スタジオ・更新マネージャー・開発環境セットアップ（[src/quantumos/desktop/](src/quantumos/desktop/)、[image/editions/desktop/](image/editions/desktop/)） | DT-01〜05 |
 
 ```
 src/quantumos/        量子サービス・CLI・IPC・回路検証・シミュレーター
 src/quantumos/admin/  更新バンドル検証・A/B 書き込み・試行起動判定・切り戻し
-system/               systemd ユニット、sysusers、tmpfiles、設定ファイル
-image/                ルートファイルシステム／ディスクイメージ／更新バンドルの作成スクリプト
+src/quantumos/desktop/ デスクトップ版のアプリ（GTK4/libadwaita。画面以外のロジックは pytest で試験）
+system/               systemd ユニット、sysusers、tmpfiles、設定ファイル、デスクトップ版の起動項目・polkit
+image/                ルートファイルシステム／ディスクイメージ／更新バンドルの作成スクリプト（editions/ に版ごとの差分）
 tests/                受入試験 T-OS-02〜06 と IPC 適合確認の自動テスト
 docs/design/          設計書 0.1 の Markdown 版
 docs/                 実装上の解釈・未確定事項・トレーサビリティ
@@ -112,6 +114,21 @@ sudo QOS_UPDATE_PUBKEY=update.pub QOS_ROOT_PASSWORD_HASH="$(openssl passwd -6)" 
 ```bash
 sudo image/make-disk.sh out quantumos.raw
 ```
+
+GNOME 付きのデスクトップ版は `QOS_EDITION=desktop` を付けて同じスクリプトで作ります（[docs/image-build.md](docs/image-build.md#デスクトップ版を作るqos-dt-01)）。
+
+## デスクトップ版
+
+量子OSには CLI のみの標準版と、GNOME 48 を載せたデスクトップ版があります（[設計書 QOS-DT 0.1](docs/design/QOS-DT-0.1.md)）。
+デスクトップ版は汎用デスクトップとしての機能（ブラウザー、ファイル、日本語入力、ネットワーク設定、GNOME ソフトウェアによる Flatpak アプリの追加）に加えて、次を備えます。
+
+| アプリ | コマンド | 内容 |
+|---|---|---|
+| 量子回路スタジオ | `qos-studio` | 回路の編集（ゲートの追加・並べ替え・角度）、回路図、構造チェック、`qosctl` による検証・実行・停止、ヒストグラムと表、同じシードでの再実行、結果の明示保存 |
+| 量子OS 更新マネージャー | `qos-update-manager` | A/B スロットと試行起動・切り戻しの状態表示、署名付き更新バンドルの適用（polkit の管理者認証）、再起動の案内 |
+| 開発環境セットアップ | `qos-devenv-setup` | 利用者が入手した IntelliJ IDEA（.tar.gz）を `~/.local/opt` に展開し、OS 同梱の量子OSプラグインと起動項目を導入（管理者権限不要） |
+
+読み取り専用ルートと A/B 更新（署名検証・試行起動・自動切り戻し）はデスクトップ全体に適用されます。
 
 ## ドキュメント
 
