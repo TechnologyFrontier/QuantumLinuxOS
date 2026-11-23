@@ -24,9 +24,12 @@ if ! mount -t ext4 -o nodev,nosuid "$STATE_DEV" "${rootmnt}/var"; then
 fi
 OV="${rootmnt}/var/lib/quantumos/etc-overlay"
 mkdir -p "$OV/upper" "$OV/work" "${rootmnt}/var/home" "${rootmnt}/var/roothome"
-if ! mount -t overlay overlay \
+# Options must precede the device: without busybox the initramfs uses klibc
+# mount, which stops option parsing at the first operand and rejects "-o"
+# after the device (prints usage and fails, so the boot dropped to the shell).
+if ! mount -t overlay \
         -o "lowerdir=${rootmnt}/etc,upperdir=$OV/upper,workdir=$OV/work" \
-        "${rootmnt}/etc"; then
+        overlay "${rootmnt}/etc"; then
     panic "QuantumOS: cannot set up /etc overlay"
 fi
 exit 0
