@@ -10,4 +10,8 @@
 - **GitHub Pages**: `main` の `site/` が変わると [.github/workflows/pages.yml](../.github/workflows/pages.yml) が公開します。
   最初に一度だけ、リポジトリの Settings → Pages → Build and deployment の Source を「GitHub Actions」にしてください。
   公開先は `https://technologyfrontier.github.io/QuantumLinuxOS/` です。
-- **自社サイト**: `site/` の中身（`index.html` と `assets/`）を、そのまま任意のディレクトリーに置いてください。パスはすべて相対です。
+- **自社サイト**: 掲載用の一式を次からダウンロードできます（GitHub Pages の公開と同時に `site/` から自動で作り直されます）。
+  - https://technologyfrontier.github.io/QuantumLinuxOS/quantumos-release-site.zip
+  - https://technologyfrontier.github.io/QuantumLinuxOS/quantumos-release-site.zip.sha256（SHA-256）
+
+  zip には `quantumos/index.html` と `quantumos/assets/` が入っています。パスはすべて相対なので、`quantumos/` を任意の場所に置けば表示できます。

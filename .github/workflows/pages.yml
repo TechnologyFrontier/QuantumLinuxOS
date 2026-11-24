@@ -26,8 +26,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+      # The published tree is the page itself plus a ready-to-upload package
+      # for the company site (index.html + assets/ under quantumos/).
+      - name: Stage site and company-site package
+        run: |
+          set -eu
+          rm -rf _site _pkg
+          mkdir -p _site _pkg/quantumos
+          cp -a site/index.html site/assets _site/
+          cp -a site/index.html site/assets _pkg/quantumos/
+          (cd _pkg && zip -qr -X ../_site/quantumos-release-site.zip quantumos)
+          (cd _site && sha256sum quantumos-release-site.zip > quantumos-release-site.zip.sha256)
+          unzip -l _site/quantumos-release-site.zip
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: _site
       - id: deployment
         uses: actions/deploy-pages@v4
