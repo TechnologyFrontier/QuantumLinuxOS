@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>量子OS — 量子回路をローカルで動かす Linux ベース OS | Technology Frontier</title>
-<meta name="description" content="量子回路のローカル実行を標準搭載した Linux ベース OS「量子OS」。読み取り専用ルートと A/B 更新で壊れにくく、GNOME デスクトップ版には量子回路スタジオ・GUI 更新マネージャー・IntelliJ IDEA プラグインの導入支援を搭載。ソースコードは GitHub で公開しています。">
+<meta name="description" content="量子回路のローカル実行を標準搭載した Linux ベース OS「量子OS」。読み取り専用ルートと A/B 更新で壊れにくく、GNOME デスクトップ版には量子回路スタジオ・GUI 更新マネージャー・IntelliJ IDEA プラグインの導入支援を搭載。MIT / Apache-2.0 のオープンソースとして GitHub で公開しています。">
 <meta name="keywords" content="量子OS,量子コンピューター,量子回路,シミュレーター,Linux,Debian,GNOME,A/B更新,IntelliJ IDEA,オープンソース,Technology Frontier,QuantumLinuxOS">
 <meta name="author" content="株式会社Technology Frontier">
 <meta name="theme-color" content="#0b1420">
 <meta property="og:type" content="website">
 <meta property="og:title" content="量子OS — 量子回路をローカルで動かす Linux ベース OS">
-<meta property="og:description" content="量子サービス・標準 CLI・壊れにくい A/B 更新・GNOME デスクトップ版・IDE プラグイン。ソースコードを GitHub で公開。">
+<meta property="og:description" content="量子サービス・標準 CLI・壊れにくい A/B 更新・GNOME デスクトップ版・IDE プラグイン。MIT / Apache-2.0 のオープンソース。">
 <meta property="og:image" content="assets/08-studio-bell.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -299,15 +299,16 @@ footer { border-top: 1px solid var(--glassBd); padding: 40px 24px; }
 
 <!-- ── Hero ── -->
 <section class="hero">
-  <div class="hero-badge anim">2026年11月 ソースコード公開 · v0.1</div>
+  <div class="hero-badge anim">2026年11月 オープンソースで公開 · v0.1</div>
   <h1 class="hero-title anim d1">量子回路を、<br><span class="grad">あなたの PC で。</span></h1>
   <p class="hero-sub anim d2">
     量子OSは、量子回路のローカル実行を標準搭載した Linux ベースの OS です。
     OS に組み込まれた量子サービスが回路を検証・実行し、標準 CLI・GUI アプリ・IDE プラグインから同じ手順で使えます。
     読み取り専用ルートと署名付き A/B 更新で、更新に失敗しても自動で元の版に戻ります。
+    ソースコードは MIT / Apache-2.0 のオープンソースとして公開しています。
   </p>
   <div class="hero-btns anim d3">
-    <a class="btn-primary" href="https://github.com/orgs/TechnologyFrontier/repositories"><svg aria-hidden="true"><use href="#i-gh"/></svg>ソースコードを入手</a>
+    <a class="btn-primary" href="https://github.com/orgs/TechnologyFrontier/repositories"><svg aria-hidden="true"><use href="#i-gh"/></svg>オープンソースで入手</a>
     <a class="btn-secondary" href="#features">機能を見る →</a>
   </div>
 
@@ -316,7 +317,7 @@ footer { border-top: 1px solid var(--glassBd); padding: 40px 24px; }
     <div class="stat-item" role="listitem"><div class="stat-num">10万</div><div class="stat-label">ショット / 1 回の実行（最大）</div></div>
     <div class="stat-item" role="listitem"><div class="stat-num">2</div><div class="stat-label">エディション</div></div>
     <div class="stat-item" role="listitem"><div class="stat-num">3</div><div class="stat-label">デスクトップアプリ</div></div>
-    <div class="stat-item" role="listitem"><div class="stat-num">A/B</div><div class="stat-label">自動切り戻し付き更新</div></div>
+    <div class="stat-item" role="listitem"><div class="stat-num">OSS</div><div class="stat-label">MIT / Apache-2.0</div></div>
   </div>
 
   <div class="term anim d4" aria-label="qosctl の実行例">
@@ -590,8 +591,9 @@ qosctl status            <span class="c"># {"state":"ready"}</span>
 <section id="get">
   <div class="wrap">
     <p class="eyebrow">Get Started</p>
-    <h2 class="h2">ソースコードは GitHub で公開しています。</h2>
-    <p class="lead">OS イメージの作成スクリプト、量子サービス、デスクトップアプリ、IDE プラグイン、設計書と評価記録まで、すべて <a href="https://github.com/orgs/TechnologyFrontier/repositories">TechnologyFrontier の GitHub</a> から入手できます。</p>
+    <h2 class="h2">オープンソースで、<br>すべて公開しています。</h2>
+    <p class="lead">OS イメージの作成スクリプト、量子サービス、デスクトップアプリ、IDE プラグイン、設計書と評価記録まで、すべて <a href="https://github.com/orgs/TechnologyFrontier/repositories">TechnologyFrontier の GitHub</a> から入手できます。ライセンスは <b>MIT License と Apache License 2.0 のデュアルライセンス</b>。どちらか一方を選んで、商用を含め自由に利用・改変・再配布できます。</p>
+    <div class="chips" style="margin-top:20px"><span class="chip">SPDX: MIT OR Apache-2.0</span><span class="chip">商用利用可</span><span class="chip">改変・再配布可</span><span class="chip">無保証</span></div>
 
     <div class="grid2">
       <article class="card repo">
@@ -636,6 +638,7 @@ sudo QOS_EDITION=desktop \
           <tr><td>量子計算の上限</td><td>実行は 20 量子ビットまで（回路の構造は 64 量子ビット・10,000 操作・4 MiB まで）、1〜100,000 ショット、実行期限 120 秒</td></tr>
           <tr><td>IDE</td><td>IntelliJ IDEA 2025.3（ビルド 253.*）。IDE 本体は OS に同梱していません。JetBrains から入手し、利用規約に同意のうえご利用ください</td></tr>
           <tr><td>イメージの作成</td><td>Linux（root 権限）、debootstrap、Debian ミラーへの接続</td></tr>
+          <tr><td>ライセンス</td><td>MIT License または Apache License 2.0（利用者が選択）。OS イメージに含まれる Debian などのパッケージは、それぞれのライセンスに従います</td></tr>
         </tbody>
       </table>
     </div>
@@ -647,7 +650,7 @@ sudo QOS_EDITION=desktop \
   <div class="cta-box">
     <p class="eyebrow">Contact</p>
     <h2 class="h2">量子計算を、<br>手元の当たり前に。</h2>
-    <p>ソースコードはどなたでも GitHub から入手できます。教育・研究機関での導入、専用ハードウェアへの搭載、カスタマイズのご相談も承ります。</p>
+    <p>ソースコードは MIT / Apache-2.0 のオープンソースとして、どなたでも GitHub から入手できます。教育・研究機関での導入、専用ハードウェアへの搭載、カスタマイズのご相談も承ります。</p>
     <div class="hero-btns" style="margin-bottom:0">
       <a class="btn-primary" href="https://github.com/orgs/TechnologyFrontier/repositories"><svg aria-hidden="true"><use href="#i-gh"/></svg>GitHub でソースを見る</a>
       <a class="btn-secondary" href="mailto:info@technologyfrontier.co.jp">お問い合わせ →</a>
@@ -681,7 +684,7 @@ sudo QOS_EDITION=desktop \
   </div>
   <p class="legal">
     © 2026 株式会社Technology Frontier. All rights reserved.<br>
-    量子OS（QuantumLinuxOS）は株式会社Technology Frontier が開発し、ソースコードを公開しているソフトウェアです。Debian は Software in the Public Interest, Inc. の、GNOME は GNOME Foundation の、IntelliJ IDEA は JetBrains s.r.o. の商標または登録商標です。その他、記載の製品名・サービス名は各社の商標または登録商標です。<br>
+    量子OS（QuantumLinuxOS）は株式会社Technology Frontier が開発したオープンソースソフトウェアです（MIT License または Apache License 2.0）。Debian は Software in the Public Interest, Inc. の、GNOME は GNOME Foundation の、IntelliJ IDEA は JetBrains s.r.o. の商標または登録商標です。その他、記載の製品名・サービス名は各社の商標または登録商標です。<br>
     本ページに記載された内容は掲載日（2026年11月24日）時点のものであり、予告なく変更される場合があります。
   </p>
 </footer>
