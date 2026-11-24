@@ -50,6 +50,11 @@ else
     echo "NOTE: QOS_IDE_PLUGIN_ZIP not set; the IDE setup installs the IDE without the plugin" >&2
 fi
 
+# Product name shown by GNOME (initial setup, Settings → About); ID stays
+# "debian" so tools keep treating the base system as Debian.
+sed -i -e "s/^PRETTY_NAME=.*/PRETTY_NAME=\"QuantumOS ${QOS_VERSION} Desktop (Debian 13 base)\"/" \
+       -e 's/^NAME=.*/NAME="QuantumOS"/' "$ROOT/usr/lib/os-release"
+
 echo ">> desktop: users, locale, services"
 # Users created by GNOME (gnome-initial-setup / Settings → accountsservice →
 # adduser) and by adduser join the quantum group (QOS-DT 2.3).

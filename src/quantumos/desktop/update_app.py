@@ -160,7 +160,7 @@ class UpdateWindow(Adw.ApplicationWindow):
         elif st.state == "trial_in_progress":
             icon, title = "content-loading-symbolic", "新しい版を試行起動中です"
         else:
-            icon, title = "emblem-ok-symbolic", f"量子OS {st.confirmed_version or ''} で動作中"
+            icon, title = "org.quantumos.UpdateManager", f"量子OS {st.confirmed_version or ''} で動作中"
         self.headline.set(icon, title, st.state_text)
         self.reboot_btn.set_sensitive(st.needs_reboot)
         self._update_apply()

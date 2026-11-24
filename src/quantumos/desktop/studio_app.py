@@ -26,6 +26,7 @@ from . import qosctl_client as qc  # noqa: E402
 
 APP_ID = "org.quantumos.Studio"
 
+STATUS_INTERVAL_SEC = 15
 STATE_TEXT = {"ready": "待機中（ready）", "busy": "計算中（busy）"}
 
 
@@ -215,6 +216,12 @@ class StudioWindow(Adw.ApplicationWindow):
         view.set_content(paned)
         self.reload()
         self.refresh_status()
+        GLib.timeout_add_seconds(STATUS_INTERVAL_SEC, self._periodic_status)
+
+    def _periodic_status(self):
+        if self.invocation is None and self.is_visible():
+            self.refresh_status()
+        return True
 
     # --- layout ------------------------------------------------------------
     def _editor_panel(self):
@@ -297,21 +304,21 @@ class StudioWindow(Adw.ApplicationWindow):
         box.append(self.banner)
 
         results = Adw.PreferencesGroup(title="結果")
-        self.meta = Gtk.Label(xalign=0, selectable=True, wrap=True, css_classes=["dim-label"])
-        results.add(self.meta)
-        self.hist = Histogram()
-        results.add(self.hist)
-        self.table = Gtk.Grid(column_spacing=24, row_spacing=4, margin_top=6)
-        results.add(Gtk.ScrolledWindow(child=self.table, min_content_height=120, vexpand=True))
-        actions = Gtk.Box(spacing=6, halign=Gtk.Align.END, margin_top=6)
+        actions = Gtk.Box(spacing=6)
         self.rerun_btn = Gtk.Button(label="同じシードで再実行", sensitive=False)
         self.rerun_btn.connect("clicked", self.on_rerun)
         self.save_result_btn = Gtk.Button(label="結果を保存…", sensitive=False)
         self.save_result_btn.connect("clicked", self.on_save_result)
         actions.append(self.rerun_btn)
         actions.append(self.save_result_btn)
+        results.set_header_suffix(actions)
+        self.meta = Gtk.Label(xalign=0, selectable=True, wrap=True, css_classes=["dim-label"])
+        results.add(self.meta)
+        self.hist = Histogram()
+        results.add(self.hist)
+        self.table = Gtk.Grid(column_spacing=24, row_spacing=4, margin_top=6)
+        results.add(Gtk.ScrolledWindow(child=self.table, min_content_height=120, vexpand=True))
         box.append(results)
-        box.append(actions)
         return Gtk.ScrolledWindow(child=box)
 
     # --- model <-> widgets ---------------------------------------------------
@@ -535,7 +542,9 @@ class StudioWindow(Adw.ApplicationWindow):
         self.validate_btn.set_sensitive(not running)
         self.stop_btn.set_sensitive(running)
         self.spinner.set_spinning(running)
-        self.title.set_subtitle("量子サービス: 実行中…" if running else self.title.get_subtitle())
+        if running:
+            self.banner.set_revealed(False)
+            self.title.set_subtitle("量子サービス: 実行中…")
 
     def on_run(self, _b, seed: str | None = None, shots: int | None = None):
         if self.invocation is not None:
