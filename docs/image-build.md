@@ -101,7 +101,7 @@ sudo QOS_EDITION=desktop image/make-disk.sh out-desktop quantumos-desktop.raw
 |---|---|---|
 | 追加パッケージ | — | [image/editions/desktop/packages.txt](../image/editions/desktop/packages.txt)（apt で導入。Recommends なし） |
 | 製品 ID | `quantumos` | `quantumos-desktop`（更新バンドルも `QOS_EDITION=desktop image/make-bundle.sh …` で作る） |
-| ルートスロット／ルートイメージ／ディスク | 6／3／32 GiB | 12／9／64 GiB |
+| ルートスロット／ルートイメージ／ディスク | 6／3／32 GiB | 12／6／64 GiB |
 | 既定ターゲット | multi-user（`getty@tty1`） | graphical（GDM） |
 | 健全性確認 | [system/config/update.conf](../system/config/update.conf) の既定 | [image/editions/desktop/update.conf](../image/editions/desktop/update.conf)（tty1 の代わりに `display-manager.service`） |
 

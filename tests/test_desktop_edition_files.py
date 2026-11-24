@@ -24,7 +24,7 @@ def _env(edition, **extra):
 
 def test_editions_in_config_env():
     assert _env(None).stdout.split() == ["quantumos", "6144", "3072", "32768"]
-    assert _env("desktop").stdout.split() == ["quantumos-desktop", "12288", "9216", "65536"]
+    assert _env("desktop").stdout.split() == ["quantumos-desktop", "12288", "6144", "65536"]
     # explicit environment values still win
     assert _env("desktop", ROOT_IMAGE_SIZE_MIB="10000").stdout.split()[2] == "10000"
     bad = _env("nosuch")
@@ -92,3 +92,12 @@ def test_desktop_packages_include_runtime_of_the_apps():
 def test_scripts_parse():
     for path in ("image/build-rootfs.sh", "image/editions/desktop/configure.sh"):
         subprocess.run(["bash", "-n", os.path.join(REPO, path)], check=True)
+
+
+def test_trial_assessment_waits_for_the_display_manager():
+    # found in VM evaluation: without this the check raced GDM and rolled back
+    conf = configparser.ConfigParser()
+    conf.read(os.path.join(ED, "qos-boot-assess-desktop.conf"))
+    assert "display-manager.service" in conf["Unit"]["After"].split()
+    configure = open(os.path.join(ED, "configure.sh")).read()
+    assert "qos-boot-assess.service.d/50-desktop.conf" in configure

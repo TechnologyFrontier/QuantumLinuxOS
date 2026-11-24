@@ -53,10 +53,10 @@ Ubuntu と同等の汎用機能（ブラウザー、ファイル管理、日本�
 |---|---|---|
 | パッケージ | `image/packages.txt` | 標準版＋`image/editions/desktop/packages.txt` |
 | 製品 ID（更新バンドル） | `quantumos` | `quantumos-desktop`（標準版のバンドルを誤適用しない） |
-| ルートスロット／イメージ | 6 GiB／3 GiB | 12 GiB／9 GiB（暫定、実測で見直す） |
+| ルートスロット／イメージ | 6 GiB／3 GiB | 12 GiB／6 GiB（実測で内容 3.0 GiB。更新バンドルはイメージ全体を含むため余裕は 2 倍に留める） |
 | 推奨ディスク | 32 GiB 以上 | 64 GiB 以上 |
 | 既定ターゲット | multi-user | graphical（GDM） |
-| 健全性確認 | QOS-FD の 6 項目 | 標準版の tty1 コンソールを表示マネージャー（GDM）の稼働に置き換えた 6 項目（GDM が tty1 を使うため） |
+| 健全性確認 | QOS-FD の 6 項目 | 標準版の tty1 コンソールを表示マネージャー（GDM）の稼働に置き換えた 6 項目（GDM が tty1 を使うため）。試行起動の判定は GDM の起動後に行う |
 
 ## 2.2 読み取り専用ルートでの GNOME
 

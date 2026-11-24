@@ -21,7 +21,8 @@ class Headline(Gtk.Box):
     def __init__(self):
         super().__init__(spacing=18, margin_bottom=6)
         self.icon = Gtk.Image(pixel_size=48, valign=Gtk.Align.CENTER)
-        texts = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4, valign=Gtk.Align.CENTER)
+        texts = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4, valign=Gtk.Align.CENTER,
+                        hexpand=True)
         self.title = Gtk.Label(xalign=0, wrap=True, css_classes=["title-2"])
         self.description = Gtk.Label(xalign=0, wrap=True, css_classes=["dim-label"])
         texts.append(self.title)
@@ -59,6 +60,11 @@ class UpdateWindow(Adw.ApplicationWindow):
         self.headline = Headline()
         self.headline.set("system-software-update-symbolic", "更新状態を確認しています…",
                           "管理者の認証を求められた場合は、管理者のパスワードを入力してください。")
+        # shown next to the headline while a trial boot waits for a reboot
+        self.head_reboot_btn = Gtk.Button(label="再起動…", valign=Gtk.Align.CENTER, visible=False,
+                                          css_classes=["destructive-action"])
+        self.head_reboot_btn.connect("clicked", self.on_reboot)
+        self.headline.append(self.head_reboot_btn)
         self.banner_group.add(self.headline)
         page.add(self.banner_group)
 
@@ -163,6 +169,7 @@ class UpdateWindow(Adw.ApplicationWindow):
             icon, title = "org.quantumos.UpdateManager", f"量子OS {st.confirmed_version or ''} で動作中"
         self.headline.set(icon, title, st.state_text)
         self.reboot_btn.set_sensitive(st.needs_reboot)
+        self.head_reboot_btn.set_visible(st.needs_reboot)
         self._update_apply()
 
     # --- apply -----------------------------------------------------------------
