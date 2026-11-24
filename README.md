@@ -129,6 +129,7 @@ GNOME 付きのデスクトップ版は `QOS_EDITION=desktop` を付けて同じ
 | 開発環境セットアップ | `qos-devenv-setup` | 利用者が入手した IntelliJ IDEA（.tar.gz）を `~/.local/opt` に展開し、OS 同梱の量子OSプラグインと起動項目を導入（管理者権限不要） |
 
 読み取り専用ルートと A/B 更新（署名検証・試行起動・自動切り戻し）はデスクトップ全体に適用されます。
+仮想マシンでの評価結果は [docs/evaluation/desktop-0.1](docs/evaluation/desktop-0.1/README.md) を参照してください。
 
 ## ドキュメント
 

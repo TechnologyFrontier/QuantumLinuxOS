@@ -39,6 +39,7 @@ install -D -m0644 "$REPO/system/desktop/polkit/50-quantumos-update.rules" \
 install -D -m0644 "$EDITION_DIR/update.conf" "$ROOT/usr/lib/quantumos/update.conf"
 install -D -m0644 "$EDITION_DIR/qos-boot-assess-desktop.conf" \
     "$ROOT/usr/lib/systemd/system/qos-boot-assess.service.d/50-desktop.conf"
+install -D -m0644 "$EDITION_DIR/80-quantumos-udisks.rules" "$ROOT/usr/lib/udev/rules.d/80-quantumos-udisks.rules"
 install -D -m0644 "$EDITION_DIR/90_quantumos.gschema.override" \
     "$ROOT/usr/share/glib-2.0/schemas/90_quantumos.gschema.override"
 chroot "$ROOT" glib-compile-schemas /usr/share/glib-2.0/schemas

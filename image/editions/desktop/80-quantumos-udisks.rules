@@ -1,0 +1,3 @@
+# Desktop edition: keep the system partitions out of Files / file choosers
+# (found in VM evaluation: the inactive root slot was offered for mounting).
+SUBSYSTEM=="block", ENV{ID_PART_ENTRY_NAME}=="ESP|qos-root-a|qos-root-b|qos-state", ENV{UDISKS_IGNORE}="1"

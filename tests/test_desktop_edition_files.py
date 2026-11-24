@@ -101,3 +101,19 @@ def test_trial_assessment_waits_for_the_display_manager():
     assert "display-manager.service" in conf["Unit"]["After"].split()
     configure = open(os.path.join(ED, "configure.sh")).read()
     assert "qos-boot-assess.service.d/50-desktop.conf" in configure
+
+
+def test_system_partitions_hidden_from_udisks():
+    rule = open(os.path.join(ED, "80-quantumos-udisks.rules")).read()
+    for label in ("ESP", "qos-root-a", "qos-root-b", "qos-state"):
+        assert label in rule
+    assert 'ENV{UDISKS_IGNORE}="1"' in rule
+    assert "80-quantumos-udisks.rules" in open(os.path.join(ED, "configure.sh")).read()
+
+
+def test_updated_slots_keep_the_install_kernel_options():
+    # found in VM evaluation: entries written by qos-admin lacked the consoles
+    out = subprocess.run(["bash", "-c", f'. "{REPO}/image/config.env"; echo "$KERNEL_CMDLINE_EXTRA"'],
+                         capture_output=True, text=True, env={"PATH": os.environ["PATH"]}).stdout.strip()
+    for conf in (os.path.join(ED, "update.conf"), os.path.join(REPO, "system", "config", "update.conf")):
+        assert AdminConfig.load(conf).kernel_cmdline_extra == out
