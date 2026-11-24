@@ -137,3 +137,10 @@ GNOME 付きのデスクトップ版は `QOS_EDITION=desktop` を付けて同じ
 - [docs/update-and-recovery.md](docs/update-and-recovery.md) — 更新・試行起動・切り戻しの流れと失敗コード
 - [docs/image-build.md](docs/image-build.md) — イメージ作成とディスク構成
 - [docs/design/](docs/design/) — 設計書 0.1（基本設計書・機能設計書・インターフェース仕様書）
+
+## ライセンス
+
+MIT License と Apache License 2.0 のデュアルライセンスです（`SPDX-License-Identifier: MIT OR Apache-2.0`）。利用者はどちらか一方を選べます。
+全文は [LICENSE-MIT](LICENSE-MIT) と [LICENSE-APACHE](LICENSE-APACHE) を参照してください。
+
+このライセンスはこのリポジトリのソースコード・スクリプト・文書に適用されます。作成した OS イメージに含まれる Debian などのパッケージは、それぞれのライセンスに従います。

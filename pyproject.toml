@@ -7,6 +7,7 @@ name = "quantumos"
 version = "0.1.0"
 description = "QuantumOS user space: local quantum service (qosd), standard CLI (qosctl) and update tooling (qos-admin)"
 readme = "README.md"
+license = {text = "MIT OR Apache-2.0"}
 requires-python = ">=3.11"
 dependencies = ["numpy>=1.24", "cryptography>=38"]
 
